@@ -1,7 +1,8 @@
 import streamlit as st
 import openai
 
-openai.api_key = "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"
+# Set up the OpenAI API
+openai.api_key = st.secrets["api_key"]
 
 qa_pairs = {
     "What are the hours of operation?": "The college is generally open from 9:00 AM to 5:00 PM, but some departments may have different hours.",
