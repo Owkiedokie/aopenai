@@ -11,33 +11,38 @@ st.title("C++ Code Generator")
 task = st.text_input("Enter the programming task:")
 
 # Generate C++ code using OpenAI's GPT-3.5 model
-def generate_code(task):
-    prompt = f"Task: {task}\n\n```cpp\n#include <iostream>\nusing namespace std;\n\nint main() {{\n\n}}\n```"
+def generate_code(prompt):
+    model_engine = "text-davinci-002"  # Select the OpenAI GPT-3 model to use
     response = openai.Completion.create(
-        engine="text-davinci-003",
+        engine=model_engine,
         prompt=prompt,
-        max_tokens=100,
-        temperature=0.8,
+        max_tokens=1024,
         n=1,
         stop=None,
-        temperature=0.8,
-        top_p=1.0,
-        frequency_penalty=0.0,
-        presence_penalty=0.0,
-        echo=True
+        temperature=0.5,
     )
     code = response.choices[0].text.strip()
     return code
 
-# Main function
 def main():
-    # Generate and display the C++ code
-    if st.button("Generate Code"):
-        if task:
-            code = generate_code(task)
-            st.code(code, language="cpp")
-        else:
-            st.warning("Please enter a programming task.")
+    st.set_page_config(page_title="C++ Tutorial App")
+    st.title("C++ Tutorial App")
+    task = st.selectbox("Select a programming task:", [
+        "Hello World",
+        "Sum of Two Numbers",
+        "Factorial",
+        "Fibonacci Sequence",
+    ])
+    if task == "Hello World":
+        prompt = "Write a C++ program that prints 'Hello, world!' to the console."
+    elif task == "Sum of Two Numbers":
+        prompt = "Write a C++ program that asks the user for two numbers and prints their sum."
+    elif task == "Factorial":
+        prompt = "Write a C++ program that asks the user for a number and prints its factorial."
+    else:  # task == "Fibonacci Sequence"
+        prompt = "Write a C++ program that asks the user for a number n and prints the first n numbers of the Fibonacci sequence."
+    code = generate_code(prompt)
+    st.code(code, language="cpp")
 
 if __name__ == "__main__":
     main()
