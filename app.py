@@ -29,12 +29,15 @@ def generate_code(task):
     code = response.choices[0].text.strip()
     return code
 
-# Generate and display the C++ code
-if st.button("Generate Code"):
-    if task:
-        code = generate_code(task)
-        st.code(code, language="cpp")
-    else:
-        st.warning("Please enter a programming task.")
+# Main function
+def main():
+    # Generate and display the C++ code
+    if st.button("Generate Code"):
+        if task:
+            code = generate_code(task)
+            st.code(code, language="cpp")
+        else:
+            st.warning("Please enter a programming task.")
 
-    return generated_code
+if __name__ == "__main__":
+    main()
