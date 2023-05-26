@@ -1,49 +1,35 @@
 import streamlit as st
 import openai
 
-# Set up the OpenAI API
-openai.api_key = st.secrets["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"]
+# Set up OpenAI API credentials
+openai.api_key = "YOUR_API_KEY"
 
-# Title of the app
-st.set_page_config(page_title="C++ Tutorial App")
-st.title("C++ Code Generator")
+# Define the prompt for the OpenAI API
+prompt = "Translate the following English text to French:"
 
-# User input for the programming task
-task = st.text_input("Enter the programming task:")
-
-# Generate C++ code using OpenAI's GPT-3.5 model
-def generate_code(prompt):
-    model_engine = "text-davinci-002"  # Select the OpenAI GPT-3 model to use
-    response = openai.Completion.create(
-        engine=model_engine,
-        prompt=prompt,
-        max_tokens=1024,
-        n=1,
-        stop=None,
-        temperature=0.5,
-    )
-    code = response.choices[0].text.strip()
-    return code
-
+# Streamlit app
 def main():
-    st.set_page_config(page_title="C++ Tutorial App")
-    st.title("C++ Tutorial App")
-    task = st.selectbox("Select a programming task:", [
-        "Hello World",
-        "Sum of Two Numbers",
-        "Factorial",
-        "Fibonacci Sequence",
-    ])
-    if task == "Hello World":
-        prompt = "Write a C++ program that prints 'Hello, world!' to the console."
-    elif task == "Sum of Two Numbers":
-        prompt = "Write a C++ program that asks the user for two numbers and prints their sum."
-    elif task == "Factorial":
-        prompt = "Write a C++ program that asks the user for a number and prints its factorial."
-    else:  # task == "Fibonacci Sequence"
-        prompt = "Write a C++ program that asks the user for a number n and prints the first n numbers of the Fibonacci sequence."
-    code = generate_code(prompt)
-    st.code(code, language="cpp")
+    st.title("OpenAI Language Translation")
+    text_input = st.text_area("Enter text to translate", value="Hello, how are you?")
+
+    if st.button("Translate"):
+        with st.spinner("Translating..."):
+            # Call the OpenAI API to translate the text
+            response = openai.Completion.create(
+                engine="davinci",
+                prompt=f"{prompt}\n{text_input}\n-- Translation:",
+                temperature=0.5,
+                max_tokens=100,
+                top_p=1.0,
+                frequency_penalty=0.0,
+                presence_penalty=0.0,
+            )
+            
+            # Extract the translated text from the API response
+            translation = response.choices[0].text.strip().split("-- Translation:")[1]
+
+        st.success("Translation:")
+        st.write(translation)
 
 if __name__ == "__main__":
     main()
