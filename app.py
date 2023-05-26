@@ -49,13 +49,10 @@ def main():
 
                 # Extract the translated text from the API response
                 data = response.json()
-                choices = data["choices"]
-                if len(choices) > 0:
-                    translation = choices[0]["text"].strip()
-                    st.success("Translation:")
-                    st.write(translation)
-                else:
-                    st.error("No translation found.")
+                translation = data["choices"][0]["text"].strip()
+
+                st.success("Translation:")
+                st.write(translation)
 
             except requests.exceptions.RequestException as e:
                 st.error(f"An error occurred during the API request: {str(e)}")
