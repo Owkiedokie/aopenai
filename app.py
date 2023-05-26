@@ -2,11 +2,16 @@ import streamlit as st
 import openai
 import requests
 import os
+import tempfile
+import google_drive_credentials
 
-# Load API key from environment variable
-api_key = os.getenv("https://drive.google.com/file/d/12mWdxLePVnbeemH4AozHia6Rx_5crpay/view?usp=drive_link")
+# Load API key from file on Google Drive
+file_id = 'https://drive.google.com/file/d/12mWdxLePVnbeemH4AozHia6Rx_5crpay/view?usp=drive_link'  # Replace with your file ID
+file_path = google_drive_credentials.load_drive_file(file_id)
+with open(file_path, 'r') as f:
+    api_key = f.read().strip()
 
-if api_key is None:
+if not api_key:
     st.error("OpenAI API key not found. Please provide your API key.")
     st.stop()
 
