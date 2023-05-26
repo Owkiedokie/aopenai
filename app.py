@@ -1,13 +1,11 @@
 import streamlit as st
 import openai
-import os
 
 # Set up the OpenAI API
-openai.api_key = os.environ.get("API_KEY")
-
-
+openai.api_key = st.secrets["api_key"]
 
 # Title of the app
+st.set_page_config(page_title="C++ Tutorial App")
 st.title("C++ Code Generator")
 
 # User input for the programming task
