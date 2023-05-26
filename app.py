@@ -1,8 +1,15 @@
 import streamlit as st
 import openai
+import os
+
+# Retrieve OpenAI API key from environment variable
+api_key = os.getenv("OPENAI_API_KEY")
+if api_key is None:
+    st.error("OpenAI API key not found. Please set it as a Streamlit Cloud environment variable.")
+    st.stop()
 
 # Set up OpenAI API credentials
-openai.api_key = "YOUR_API_KEY"
+openai.api_key = api_key
 
 # Define the prompt for the OpenAI API
 prompt = "Translate the following English text to French:"
@@ -24,7 +31,7 @@ def main():
                 frequency_penalty=0.0,
                 presence_penalty=0.0,
             )
-            
+
             # Extract the translated text from the API response
             translation = response.choices[0].text.strip().split("-- Translation:")[1]
 
