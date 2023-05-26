@@ -3,12 +3,13 @@ import openai
 import requests
 import os
 import tempfile
-import google_drive_credentials
+import gdown
 
 # Load API key from file on Google Drive
-file_id = 'https://drive.google.com/file/d/12mWdxLePVnbeemH4AozHia6Rx_5crpay/view?usp=drive_link'  # Replace with your file ID
-file_path = google_drive_credentials.load_drive_file(file_id)
-with open(file_path, 'r') as f:
+file_url = 'https://drive.google.com/uc?id=12mWdxLePVnbeemH4AozHia6Rx_5crpay'  # Replace with your file URL
+temp_file_path = tempfile.mktemp()
+gdown.download(file_url, temp_file_path)
+with open(temp_file_path, 'r') as f:
     api_key = f.read().strip()
 
 if not api_key:
