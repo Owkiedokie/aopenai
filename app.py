@@ -49,7 +49,7 @@ def main():
 
                 # Extract the translated text from the API response
                 data = response.json()
-                translation = data["choices"][0]["text"].strip().split("-- Translation:")[1]
+                translation = data["choices"][0]["text"].strip().split(":")[1].strip()
 
                 st.success("Translation:")
                 st.write(translation)
