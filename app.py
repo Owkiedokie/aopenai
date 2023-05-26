@@ -2,16 +2,12 @@ import streamlit as st
 import openai
 import requests
 from configparser import ConfigParser
-from dotenv import load_dotenv
 import os
 
-# Mount Google Drive
-from google.colab import drive
-drive.mount('/content/drive')
-
-# Load API key from the .env file
-load_dotenv('/content/drive/My Drive/.env')
-api_key = os.getenv("OPENAI_API_KEY")
+# Read API key from config file
+config = ConfigParser()
+config.read("https://drive.google.com/file/d/12mWdxLePVnbeemH4AozHia6Rx_5crpay/view?usp=drive_link")
+api_key = config.get("OPENAI", "API_KEY")
 
 if api_key is None:
     st.error("OpenAI API key not found. Please provide your API key in the .env file.")
