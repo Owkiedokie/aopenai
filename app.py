@@ -1,6 +1,5 @@
 import streamlit as st
 import openai
-import os
 from configparser import ConfigParser
 
 # Read API key from config file
@@ -9,7 +8,7 @@ config.read("config.ini")
 api_key = config.get("openai", "api_key")
 
 # Check if the API key is provided
-if api_key is None or api_key == "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":
+if api_key is None:
     st.error("OpenAI API key not found. Please provide your API key in the config.ini file.")
     st.stop()
 
@@ -26,22 +25,28 @@ def main():
 
     if st.button("Translate"):
         with st.spinner("Translating..."):
-            # Call the OpenAI API to translate the text
-            response = openai.Completion.create(
-                engine="davinci",
-                prompt=f"{prompt}\n{text_input}\n-- Translation:",
-                temperature=0.5,
-                max_tokens=100,
-                top_p=1.0,
-                frequency_penalty=0.0,
-                presence_penalty=0.0,
-            )
+            try:
+                # Call the OpenAI API to translate the text
+                response = openai.Completion.create(
+                    engine="davinci",
+                    prompt=f"{prompt}\n{text_input}\n-- Translation:",
+                    temperature=0.5,
+                    max_tokens=100,
+                    top_p=1.0,
+                    frequency_penalty=0.0,
+                    presence_penalty=0.0,
+                )
 
-            # Extract the translated text from the API response
-            translation = response.choices[0].text.strip().split("-- Translation:")[1]
+                # Extract the translated text from the API response
+                translation = response.choices[0].text.strip().split("-- Translation:")[1]
 
-        st.success("Translation:")
-        st.write(translation)
+                st.success("Translation:")
+                st.write(translation)
+
+            except openai.error.AuthenticationError:
+                st.error("Authentication error. Please check your OpenAI API key.")
+            except Exception as e:
+                st.error(f"An error occurred: {str(e)}")
 
 if __name__ == "__main__":
     main()
