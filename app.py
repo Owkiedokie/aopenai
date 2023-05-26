@@ -2,7 +2,7 @@ import streamlit as st
 import openai
 
 # Set up the OpenAI API
-aopenai.api_key = st.secrets["api_key"]
+aopenai.api_key = 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
 
 # Title of the app
 st.title("C++ Code Generator")
