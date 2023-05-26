@@ -1,16 +1,13 @@
 import streamlit as st
 import openai
 import requests
-from configparser import ConfigParser
 import os
 
-# Read API key from config file
-config = ConfigParser()
-config.read("https://drive.google.com/file/d/12mWdxLePVnbeemH4AozHia6Rx_5crpay/view?usp=drive_link")
-api_key = config.get("OPENAI", "API_KEY")
+# Load API key from environment variable
+api_key = os.getenv("https://drive.google.com/file/d/12mWdxLePVnbeemH4AozHia6Rx_5crpay/view?usp=drive_link")
 
 if api_key is None:
-    st.error("OpenAI API key not found. Please provide your API key in the .env file.")
+    st.error("OpenAI API key not found. Please provide your API key.")
     st.stop()
 
 # Define the API endpoint
