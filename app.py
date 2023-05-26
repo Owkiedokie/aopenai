@@ -47,6 +47,9 @@ def main():
                 # Send the POST request to the OpenAI API
                 response = requests.post(endpoint, headers=headers, json=payload)
 
+                # Print the response JSON for debugging
+                st.write(response.json())
+
                 # Extract the translated text from the API response
                 data = response.json()
                 choices = data["choices"]
