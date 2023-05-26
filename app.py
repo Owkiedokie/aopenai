@@ -3,7 +3,8 @@ import openai
 import os
 
 # Retrieve OpenAI API key from environment variable
-api_key = os.getenv("OPENAI_API_KEY")
+api_key = os.getenv("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")
+st.write(api_key)  # Add this line to print the value of the API key
 if api_key is None:
     st.error("OpenAI API key not found. Please set it as a Streamlit Cloud environment variable.")
     st.stop()
