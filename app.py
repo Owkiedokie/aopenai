@@ -1,10 +1,16 @@
 import streamlit as st
 import openai
+import os
+from configparser import ConfigParser
 
-# Retrieve OpenAI API key from environment variable
-api_key = os.getenv("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")
-if api_key is None:
-    st.error("OpenAI API key not found. Please set it as a Streamlit Cloud environment variable.")
+# Read API key from config file
+config = ConfigParser()
+config.read("config.ini")
+api_key = config.get("openai", "api_key")
+
+# Check if the API key is provided
+if api_key is None or api_key == "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":
+    st.error("OpenAI API key not found. Please provide your API key in the config.ini file.")
     st.stop()
 
 # Set up OpenAI API credentials
