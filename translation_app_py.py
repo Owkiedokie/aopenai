@@ -1,20 +1,20 @@
 import streamlit as st
+import os
 import openai
 import requests
 
-# Function to read the API key from the secret.txt file
+# Function to read the API key from the environment variable
 def read_api_key():
-    with open("G:\My Drive\Colab Notebooks (1)\secret.txt", "r") as file:
-        api_key = file.read().strip()
+    api_key = os.getenv("OPENAI_API_KEY")
     return api_key
 
-# Get the API key from the user or secret.txt file
+# Get the API key from the user or environment variable
 api_key = st.text_input("Enter your OpenAI API key", type="password")
 if not api_key:
     api_key = read_api_key()
 
 if not api_key:
-    st.error("OpenAI API key not provided. Please enter your API key or create a secret.txt file.")
+    st.error("OpenAI API key not provided. Please enter your API key or set it as an environment variable.")
     st.stop()
 
 # Define the API endpoint
