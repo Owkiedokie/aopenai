@@ -4,7 +4,7 @@ import requests
 
 # Function to read the API key from the secret.txt file
 def read_api_key():
-    with open("secret.txt", "r") as file:
+    with open("G:\My Drive\Colab Notebooks (1)\secret.txt", "r") as file:
         api_key = file.read().strip()
     return api_key
 
