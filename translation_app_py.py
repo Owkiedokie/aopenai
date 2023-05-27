@@ -2,11 +2,19 @@ import streamlit as st
 import openai
 import requests
 
-# Get the API key from the user
+# Function to read the API key from the secret.txt file
+def read_api_key():
+    with open("secret.txt", "r") as file:
+        api_key = file.read().strip()
+    return api_key
+
+# Get the API key from the user or secret.txt file
 api_key = st.text_input("Enter your OpenAI API key", type="password")
+if not api_key:
+    api_key = read_api_key()
 
 if not api_key:
-    st.error("OpenAI API key not provided. Please enter your API key.")
+    st.error("OpenAI API key not provided. Please enter your API key or create a secret.txt file.")
     st.stop()
 
 # Define the API endpoint
